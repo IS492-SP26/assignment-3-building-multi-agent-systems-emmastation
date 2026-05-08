@@ -226,18 +226,18 @@ A safety-test run should stop before the agent workflow and return a refusal wit
 
 ## Exported Demo Artifacts
 
-The repo includes exported demo artifacts under `outputs/`.
+The repo includes exported demo artifacts under `output/`.
 
 Recommended files:
 
 ```text
-outputs/screenshots/demo_ui_overview.png
-outputs/screenshots/demo_normal_query.png
-outputs/screenshots/demo_safety_query.png
-outputs/sample_session.json
-outputs/sample_final_answer.md
-outputs/judge_prompt_sample.md
-outputs/judge_output_sample.json
+output/screenshots/demo_ui_overview.png
+output/screenshots/demo_normal_query.png
+output/screenshots/demo_safety_query.png
+output/sample_session.json
+output/sample_final_answer.md
+output/judge_prompt_sample.md
+output/judge_output_sample.json
 ```
 
 ### Sample Session JSON
@@ -245,7 +245,7 @@ outputs/judge_output_sample.json
 A full session export is included at:
 
 ```bash
-outputs/sample_session.json
+output/sample_session.json
 ```
 
 This file represents one full run, including the original query, final answer, metadata, sources, agent traces, and safety information.
@@ -255,7 +255,7 @@ This file represents one full run, including the original query, final answer, m
 A Markdown artifact is included at:
 
 ```bash
-outputs/sample_final_answer.md
+output/sample_final_answer.md
 ```
 
 This file contains the final synthesized answer for a representative query, including inline citations and a separate sources section.
@@ -265,8 +265,8 @@ This file contains the final synthesized answer for a representative query, incl
 Raw judge prompt and output samples are included at:
 
 ```bash
-outputs/judge_prompt_sample.md
-outputs/judge_output_sample.json
+output/judge_prompt_sample.md
+output/judge_output_sample.json
 ```
 
 These files document how one representative response can be evaluated using the project’s LLM-as-a-Judge criteria.
@@ -302,8 +302,8 @@ The evaluation criteria are:
 For at least one representative run, the raw judge prompt and output are documented in:
 
 ```bash
-outputs/judge_prompt_sample.md
-outputs/judge_output_sample.json
+output/judge_prompt_sample.md
+output/judge_output_sample.json
 ```
 
 ---
@@ -333,7 +333,7 @@ outputs/judge_output_sample.json
 ├── data/
 │   ├── example_queries.json           # Primary evaluation dataset
 │   └── test_queries_sample.json       # Alternate/fallback dataset
-├── outputs/
+├── output/
 │   ├── screenshots/
 │   │   ├── demo_ui_overview.png
 │   │   ├── demo_normal_query.png
