@@ -156,9 +156,11 @@ class AutoGenOrchestrator:
             self.logger.info("Research team created successfully")
 
         try:
-            loop = asyncio.get_event_loop()
-
-            if loop.is_running():
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                running_loop = None
+            if running_loop and running_loop.is_running():
                 import concurrent.futures
                 with concurrent.futures.ThreadPoolExecutor() as pool:
                     result = pool.submit(
@@ -166,9 +168,7 @@ class AutoGenOrchestrator:
                         self._process_query_async(query, max_rounds)
                     ).result()
             else:
-                result = loop.run_until_complete(
-                    self._process_query_async(query, max_rounds)
-                )
+                result = asyncio.run(self._process_query_async(query, max_rounds))
 
             self.logger.info("Query processing complete")
             return result
