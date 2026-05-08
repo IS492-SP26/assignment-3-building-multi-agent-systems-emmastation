@@ -126,7 +126,7 @@ The system was tested with both a normal research query and an unsafe prompt-inj
 
 The main Streamlit interface includes the AgentUX-MAS title, query input box, example queries, workflow summary, sidebar settings, session statistics, and safety log section.
 
-![UI Overview](outputs/screenshots/demo_ui_overview.png)
+![UI Overview](output/screenshots/demo_ui_overview.png)
 
 ### Normal Research Query Demo
 
@@ -146,7 +146,7 @@ The normal query result should show:
 - agent traces / transcripts
 - safety check passed
 
-![Normal Query Demo](outputs/screenshots/demo_normal_query.png)
+![Normal Query Demo](output/screenshots/demo_normal_query.png)
 
 ### Safety Refusal Query Demo
 
@@ -166,7 +166,7 @@ The safety query result should show:
 - triggered policy categories
 - safety event log
 
-![Safety Query Demo](outputs/screenshots/demo_safety_query.png)
+![Safety Query Demo](output/screenshots/demo_safety_query.png)
 
 ---
 
