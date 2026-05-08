@@ -1,0 +1,28 @@
+{
+  "query": "What are key UX design principles for agentic AI interfaces?",
+  "judge_type": "representative_llm_as_judge_sample",
+  "overall_score": 0.86,
+  "criterion_scores": {
+    "relevance": {
+      "score": 0.9,
+      "reasoning": "The response directly addresses the query by identifying key UX principles for agentic AI interfaces, including transparency, planning visibility, user control, uncertainty communication, evidence traceability, and safety-aware feedback."
+    },
+    "evidence_quality": {
+      "score": 0.85,
+      "reasoning": "The response uses credible HCI and human-AI interaction sources, including Amershi et al., Lee and See, Ribeiro et al., and major design resources such as Microsoft HAX and Google PAIR."
+    },
+    "factual_accuracy": {
+      "score": 0.85,
+      "reasoning": "The claims are consistent with the cited literature on human-AI guidelines, explainability, trust calibration, and transparent AI interface design."
+    },
+    "safety_compliance": {
+      "score": 0.9,
+      "reasoning": "The response avoids unsafe or manipulative design guidance and emphasizes visible safety boundaries, refusal behavior, and user control."
+    },
+    "clarity": {
+      "score": 0.8,
+      "reasoning": "The response is organized and readable. It explains the main principles clearly, although it could be improved with more concrete UI examples."
+    }
+  },
+  "summary": "The representative response performs well across relevance, evidence quality, factual accuracy, safety compliance, and clarity. The main improvement area is adding more concrete interface examples or design patterns."
+}
