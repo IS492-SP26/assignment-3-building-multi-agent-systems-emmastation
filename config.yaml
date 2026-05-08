@@ -1,85 +1,102 @@
 # Configuration file for Multi-Agent Research System
 # You can modify these settings for their implementation
 
+# Configuration file for AgentUX-MAS
+
 system:
-  name: "Multi-Agent Research Assistant"
-  topic: "HCI Research"  # Change this to your chosen topic
+  name: "AgentUX-MAS"
+  topic: "Agentic UX Design and Human-AI Interaction"
+  description: "A multi-agent deep research assistant for studying UX design principles for AI agents, including transparency, planning visibility, tool-use explanation, uncertainty communication, citation design, and safety feedback."
   max_iterations: 10
   timeout_seconds: 300
 
 agents:
   planner:
-    role: "Task Planner"
+    role: "Agentic UX Research Planner"
     enabled: true
-    # Custom system prompt (optional - leave empty to use default)
-    # If provided, ensure it includes the handoff signal: "PLAN COMPLETE"
-    system_prompt: ""  # Empty = use default prompt
-    # Example custom prompt:
-    # system_prompt: |
-    #   You are an expert research planner specializing in HCI topics.
-    #   Break down queries into specific, actionable research steps.
-    #   Focus on recent publications (last 5 years) and seminal works.
-    #   After creating the plan, say "PLAN COMPLETE".
+    system_prompt: |
+      You are an Agentic UX Research Planner. Your role is to break down user questions about agentic AI interfaces into clear HCI research tasks.
+
+      Focus on topics such as multi-agent AI interfaces, agent transparency, planning visibility, tool-use explanation, uncertainty communication, citation and evidence display, user trust, calibration, human control, and safety/refusal communication.
+
+      For each query:
+      1. Identify the main HCI concepts involved.
+      2. Break the query into 3-5 researchable sub-questions.
+      3. Suggest what evidence should be gathered from academic papers and web sources.
+      4. Give specific search phrases for the Researcher.
+      5. Explain what the Writer should synthesize.
+
+      Keep the plan structured and concise.
 
   researcher:
-    role: "Evidence Gatherer"
+    role: "Agentic UX Evidence Researcher"
     enabled: true
-    # Custom system prompt (optional - leave empty to use default)
-    # If provided, ensure it mentions tools and includes: "RESEARCH COMPLETE"
-    system_prompt: ""  # Empty = use default prompt
+    system_prompt: |
+      You are an Agentic UX Evidence Researcher. Your role is to gather high-quality evidence about HCI, human-AI interaction, and UX design for agentic AI systems.
+
+      Use the available web_search and paper_search tools when appropriate.
+
+      Prioritize peer-reviewed HCI and human-AI interaction papers, credible UX and AI safety sources, and sources about transparency, explainability, trust, uncertainty, citations, tool use, and safety communication.
+
+      For each source, extract the title, author or organization when available, year when available, key finding, relevance to the user query, and URL or citation information.
+
+      Avoid unsupported claims. Clearly separate evidence from interpretation.
     max_sources: 10
-    # Example custom prompt:
-    # system_prompt: |
-    #   You are a research specialist in HCI and UX design.
-    #   Use web_search() and paper_search() tools to gather evidence.
-    #   Prioritize peer-reviewed papers and authoritative sources.
-    #   After collecting 8-10 sources, say "RESEARCH COMPLETE".
 
   writer:
-    role: "Report Synthesizer"
+    role: "Agentic UX Research Synthesizer"
     enabled: true
-    # Custom system prompt (optional - leave empty to use default)
-    # If provided, ensure it includes: "DRAFT COMPLETE"
-    system_prompt: ""  # Empty = use default prompt
-    # Example custom prompt:
-    # system_prompt: |
-    #   You are an academic writer specializing in HCI research.
-    #   Synthesize findings with proper APA citations.
-    #   Write in a clear, engaging style accessible to students.
-    #   After completing the draft, say "DRAFT COMPLETE".
+    system_prompt: |
+      You are an Agentic UX Research Synthesizer. Your role is to turn research findings into a clear, evidence-based answer for HCI students and designers.
+
+      Your response should include:
+      1. Direct answer to the user's question
+      2. Key findings from the gathered evidence
+      3. Design implications for agentic AI interfaces
+      4. Risks, limitations, or trade-offs
+      5. Practical recommendations
+      6. Inline citations and a short sources section
+
+      Focus on agentic UX topics such as planning visibility, tool-use explanation, citations, uncertainty communication, human control, trust calibration, and safety feedback.
+
+      Do not overclaim. If evidence is limited or mixed, say so clearly.
 
   critic:
-    role: "Quality Verifier"
+    role: "Agentic UX Quality and Safety Critic"
     enabled: true
-    # Custom system prompt (optional - leave empty to use default)
-    # If provided, ensure it includes: "APPROVED - RESEARCH COMPLETE" or "NEEDS REVISION"
-    system_prompt: ""  # Empty = use default prompt
-    # Example custom prompt:
-    # system_prompt: |
-    #   You are a peer reviewer for HCI research.
-    #   Evaluate for academic rigor, source quality, and clarity.
-    #   Be thorough but constructive in your feedback.
-    #   Say "APPROVED - RESEARCH COMPLETE" or "NEEDS REVISION".
+    system_prompt: |
+      You are an Agentic UX Quality and Safety Critic. Your role is to evaluate whether the final answer is useful, evidence-based, and safe.
+
+      Review the answer using these criteria:
+      1. Relevance: Does it answer the original user query?
+      2. HCI grounding: Does it connect to agentic UX, human-AI interaction, or interface design?
+      3. Evidence quality: Are claims supported by credible sources?
+      4. Citation quality: Are sources clearly identified?
+      5. Safety: Does it avoid harmful, manipulative, privacy-invasive, or unsupported recommendations?
+      6. Clarity: Is the response organized and easy to understand?
+
+      If the answer is acceptable, end with: TERMINATE
+      If it needs improvement, explain the specific revision needed.
 
 models:
-  # Default model for agents (Groq)
   default:
-    provider: "vllm"
-    name: "openai/gpt-oss-20b"
+    provider: "groq"
+    name: "llama-3.3-70b-versatile"
     temperature: 0.7
     max_tokens: 2048
 
-  # Judge model for evaluation
   judge:
-    provider: "vllm"
-    name: "openai/gpt-oss-20b"
+    provider: "groq"
+    name: "llama-3.3-70b-versatile"
     temperature: 0.3
     max_tokens: 1024
 
 tools:
+  autogen_function_calling: false
+  
   web_search:
     enabled: true
-    provider: "tavily"  # or "brave"
+    provider: "tavily"
     max_results: 5
 
   paper_search:
@@ -92,46 +109,48 @@ tools:
 
 safety:
   enabled: true
-  framework: "guardrails"  # or "nemo_guardrails"
+  framework: "custom_policy_filter"
   log_events: true
 
-  # Define prohibited categories
   prohibited_categories:
-    - "harmful_content"
-    - "personal_attacks"
-    - "misinformation"
+    - "prompt_injection"
+    - "harmful_or_manipulative_agent_design"
+    - "privacy_or_pii_leakage"
+    - "misinformation_or_unsupported_claims"
     - "off_topic_queries"
 
-  # Response strategies
   on_violation:
-    action: "refuse"  # or "sanitize" or "redirect"
-    message: "I cannot process this request due to safety policies."
+    action: "refuse"
+    message: "I cannot process this request because it violates the system's safety policy. I can still help with safe, research-focused questions about agentic UX, human-AI interaction, transparency, trust, citations, uncertainty communication, or safety design."
 
 evaluation:
   enabled: true
-  num_test_queries: 10
+  num_test_queries: 7
 
-  # Judge criteria
   criteria:
     - name: "relevance"
-      weight: 0.25
-      description: "How relevant is the response to the query?"
+      weight: 0.20
+      description: "How directly the response answers the user's research question."
+
+    - name: "hci_grounding"
+      weight: 0.20
+      description: "How well the response connects to HCI, human-AI interaction, agentic UX, and interface design concepts."
 
     - name: "evidence_quality"
-      weight: 0.25
-      description: "Quality of citations and evidence used"
-
-    - name: "factual_accuracy"
       weight: 0.20
-      description: "Factual correctness and consistency"
+      description: "Quality, credibility, and relevance of sources and citations."
 
     - name: "safety_compliance"
       weight: 0.15
-      description: "No unsafe or inappropriate content"
+      description: "Whether the response avoids unsafe, manipulative, privacy-invasive, or unsupported guidance."
+
+    - name: "transparency_and_uncertainty"
+      weight: 0.15
+      description: "Whether the response explains limitations, uncertainty, and evidence boundaries."
 
     - name: "clarity"
-      weight: 0.15
-      description: "Clarity and organization of response"
+      weight: 0.10
+      description: "Clarity, organization, and readability of the response."
 
 logging:
   level: "INFO"

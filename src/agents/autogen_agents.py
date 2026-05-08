@@ -177,14 +177,22 @@ You have access to tools for web search and paper search. When conducting resear
     )
 
     # Create the researcher with tool access
+    autogen_function_calling = config.get("tools", {}).get("autogen_function_calling", False)
+
+    researcher_tools = [web_search_tool, paper_search_tool] if autogen_function_calling else []
+
+    if not autogen_function_calling:
+       system_message += """
+
+Important: Tool calling is disabled in the current runtime. Do not attempt to call web_search or paper_search directly. Instead, produce a structured research plan, likely search keywords, expected evidence types, and source categories that should be gathered for this topic.
+"""
     researcher = AssistantAgent(
         name="Researcher",
         model_client=model_client,
-        tools=[web_search_tool, paper_search_tool],
-        description="Gathers evidence from web and academic sources using search tools",
+        tools=researcher_tools,
+        description="Gathers and structures evidence from web and academic sources",
         system_message=system_message,
-    )
-    
+)
     return researcher
 
 
@@ -305,6 +313,7 @@ def create_research_team(config: Dict[str, Any]) -> RoundRobinGroupChat:
     team = RoundRobinGroupChat(
         participants=[planner, researcher, writer, critic],
         termination_condition=termination,
+        max_turns=4,
     )
     
     return team
